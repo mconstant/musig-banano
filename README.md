@@ -10,7 +10,7 @@ then
 
 `$ make build` to build
 
-This will generate a wasm in `target/wasm32-unknown-unknown/musig_banano.wasm`
+This will generate a wasm in `target/wasm32-unknown-unknown/release/musig_banano.wasm`
 
 ## Background
 
