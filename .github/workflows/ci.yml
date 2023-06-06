@@ -1,0 +1,36 @@
+on: [push]
+
+permissions:
+  contents: write
+
+name: CI
+
+jobs:
+  build_and_test:
+    name: Rust project
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: prep toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          target: wasm32-unknown-unknown
+      - name: cargo build
+        uses: actions-rs/cargo@v1
+        with:
+          command: build
+          args: --target wasm32-unknown-unknown --release
+      - name: archive production artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: musig_banano.wasm
+          path: |
+            target/wasm32-unknown-unknown/release/musig_banano.wasm
+      - name: release wasm
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: target/wasm32-unknown-unknown/release/musig_banano.wasm
+  
