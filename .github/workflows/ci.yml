@@ -30,6 +30,7 @@ jobs:
             target/wasm32-unknown-unknown/release/musig_banano.wasm
       - name: release wasm
         uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
         with:
           files: target/wasm32-unknown-unknown/release/musig_banano.wasm
   
