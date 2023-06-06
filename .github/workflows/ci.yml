@@ -25,4 +25,10 @@ jobs:
           name: musig_banano.wasm
           path: |
             target/wasm32-unknown-unknown/release/musig_banano.wasm
+      - name: release wasm
+        uses: softprops/action-gh-release@v1
+        with:
+          files: target/wasm32-unknown-unknown/release/musig_banano.wasm
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   
