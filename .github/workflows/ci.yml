@@ -22,7 +22,7 @@ jobs:
       - name: archive production artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: wasm library
+          name: musig_banano.wasm
           path: |
             target/wasm32-unknown-unknown/release/musig_banano.wasm
   
