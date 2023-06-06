@@ -32,6 +32,4 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: target/wasm32-unknown-unknown/release/musig_banano.wasm
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   
