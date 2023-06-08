@@ -76,7 +76,6 @@ macro_rules! catch_panic {
     }};
 }
 
-#[cfg(feature = "wasm")]
 #[no_mangle]
 pub unsafe extern "C" fn musig_malloc(size: usize) -> *mut u8 {
     let mut vec: Vec<u8> = Vec::with_capacity(size + mem::size_of::<usize>());
@@ -87,7 +86,6 @@ pub unsafe extern "C" fn musig_malloc(size: usize) -> *mut u8 {
     ptr.offset(mem::size_of::<usize>() as isize)
 }
 
-#[cfg(feature = "wasm")]
 #[no_mangle]
 pub unsafe extern "C" fn musig_free(ptr: *mut u8) {
     if ptr.is_null() {
