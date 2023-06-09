@@ -1,6 +1,6 @@
 {
   "name": "musig-banano",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "## Building the wasm",
   "main": "index.js",
   "scripts": {
