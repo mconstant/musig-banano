@@ -1,6 +1,6 @@
 [package]
 name = "musig-banano"
-version = "0.1.1"
+version = "0.1.2"
 edition = "2018"
 authors = ["Lee Bousfield <ljbousfield@gmail.com>", "mconstant <bobbaxter@protonmail.com>", "airtune <airtune@protonmail.com>"]
 publish = false
