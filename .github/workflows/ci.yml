@@ -52,4 +52,9 @@ jobs:
           name: typescript_integration_dist_directory
           path: |
             typescript_integration/dist/
+      - name: release dist dir
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: typescript_integration/dist/**
   
