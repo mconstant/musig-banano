@@ -1,6 +1,12 @@
 # musig-banano
 
-## Building the wasm
+## precompiled binary from github CI
+
+If you don't want to compile the binary yourself this repo has a github action that compiles the wasm and puts a file in the releases.
+
+You can download musig_banano.wasm from the latest release
+
+## Building the wasm yourself locally
 
 If you have [nix](https://nixos.org/download.html) (recommended)
 
