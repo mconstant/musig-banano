@@ -6,7 +6,7 @@ permissions:
 name: CI
 
 jobs:
-  build_and_test:
+  build_and_archive_musig_banano_wasm:
     name: Rust project
     runs-on: ubuntu-latest
     steps:
@@ -33,4 +33,28 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: target/wasm32-unknown-unknown/release/musig_banano.wasm
+  build_and_archive_typescript_integration:
+    name: typescript integration
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install Nix
+        uses: cachix/install-nix-action@v17
+        with:
+          # Mostly to avoid GitHub rate limiting
+          extra_nix_config: |
+            access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
+      - name: Build release
+        run: nix develop --command bash -c "cd typescript_integration && npm install && npm run build"
+      - name: archive typescript_extension_dist_directory
+        uses: actions/upload-artifact@v3
+        with:
+          name: typescript_integration_dist_directory
+          path: |
+            typescript_integration/dist/
+      - name: release dist dir
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: typescript_integration/dist/**
   
