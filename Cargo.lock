@@ -170,8 +170,8 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "518ef76f2f87365916b142844c16d8fefd85039bc5699050210a7778ee1cd1de"
 
 [[package]]
-name = "musig-banano"
-version = "0.1.1"
+name = "musig-banano-wasm"
+version = "0.1.2"
 dependencies = [
  "blake2",
  "curve25519-dalek 2.0.0",

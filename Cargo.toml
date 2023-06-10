@@ -1,5 +1,5 @@
 [package]
-name = "musig-banano"
+name = "musig-banano-wasm"
 version = "0.1.2"
 edition = "2018"
 authors = ["Lee Bousfield <ljbousfield@gmail.com>", "mconstant <bobbaxter@protonmail.com>", "airtune <airtune@protonmail.com>"]

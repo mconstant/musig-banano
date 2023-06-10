@@ -1,3 +1,4 @@
+import * as fs from 'fs';
 // external dependencies
 const bananojs = require("@bananocoin/bananojs");
 
@@ -7,7 +8,12 @@ import { IMusigSuccess, IMusigError } from './interfaces';
 // src imports
 import { hexToUint8 } from './hex_to_uint8';
 import { bytesToHex } from './bytes_to_hex';
-import * as musig_banano from './musig_banano_bg.wasm';
+
+const wasmCode = fs.readFileSync('../pkg/musig_banano_wasm_bg.wasm');
+const wasmModule = new WebAssembly.Module(wasmCode);
+const imports = {};
+const musig_banano_instance: any = new WebAssembly.Instance(wasmModule, imports);
+const musig_banano = musig_banano_instance.exports;
 
 // https://github.com/PlasmaPower/musig-nano/blob/gh-pages/index.html#LL4157C1-L4173C10
 const copyToWasm = (bytes: Uint8Array, ptr: any = undefined) => {
@@ -87,12 +93,16 @@ const get_pubkeys = (addresses: string[]): (IMusigSuccess<string[]> | IMusigErro
 // https://github.com/PlasmaPower/musig-nano/blob/gh-pages/index.html#LL4267C32-L4267C45
 // https://github.com/PlasmaPower/musig-nano/blob/gh-pages/index.html#L4283
 // TODO: Check if BananoMusigCeremony is thread safe and if it isn't, create mutex lock for the ceremony.
-let addresses;
+let addresses = [];
 let musigStagePtr, musigStageNum;
 
 export const set_addresses = (new_addresses: string[]): void => {
   addresses = new_addresses;
 };
+
+export const get_addresses = (): string[] => {
+  return addresses;
+}
 
 // https://github.com/PlasmaPower/musig-nano/blob/gh-pages/index.html#L4198-L4258
 // note that the aggregate function in this example uses an older build of musig
@@ -131,11 +141,12 @@ export const musig_aggregated_address = (): (IMusigSuccess<string> | IMusigError
   outBuf[0] = 0;
   musig_banano.musig_aggregate_public_keys(pubkeyPtrs, pubkeys.length, outPtr, outPtr + 1);
 
+  // TODO: Figure out what this does
   // runWithPubkeys is unrolled into this aggregate function
   // https://github.com/PlasmaPower/musig-nano/blob/gh-pages/index.html#L4236
   // https://github.com/PlasmaPower/musig-nano/blob/gh-pages/index.html#L4283-L4286
-  musigStagePtr = musig_banano.musig_stage0(outPtr + 1, outPtr + 33);
-  musigStageNum = 0;
+  //musigStagePtr = musig_banano.musig_stage0(outPtr, outPtr + 1);
+  //musigStageNum = 0;
 
   for (let i = 0; i < pubkeyPtrsBuf.length; i++) {
     musig_banano.musig_free(pubkeyPtrsBuf[i]);
@@ -155,7 +166,7 @@ export const musig_aggregated_address = (): (IMusigSuccess<string> | IMusigError
   try {
     const aggPubkeyBytes = outBuf.subarray(1).slice();
     const aggPubkey = bytesToHex(aggPubkeyBytes);
-    aggregated_address = bananojs.getAccount(aggPubkey);
+    aggregated_address = bananojs.getAccount(aggPubkey, 'ban_');
   } catch {
     return {
       status: 'error',

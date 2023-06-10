@@ -4,7 +4,7 @@
     "sourceMap": true,
     "target": "ES5",
     "outDir": "dist",
-    "types": ["node"],
+    "types": ["node", "mocha"],
     "declaration": true
   },
   "include": ["src/**/*.ts"]
