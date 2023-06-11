@@ -3,6 +3,8 @@
 pkgs.mkShell {
   buildInputs = [
     pkgs.rustup
+    pkgs.pkg-config
+    pkgs.zlib
     pkgs.libiconv
     pkgs.wasm-pack
     pkgs.openssl

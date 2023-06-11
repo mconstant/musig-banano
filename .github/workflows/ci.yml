@@ -33,7 +33,7 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: target/wasm32-unknown-unknown/release/musig_banano.wasm
-  build_and_archive_typescript_integration:
+  build_test_and_archive_typescript_integration:
     name: typescript integration
     runs-on: ubuntu-latest
     steps:
@@ -44,8 +44,8 @@ jobs:
           # Mostly to avoid GitHub rate limiting
           extra_nix_config: |
             access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
-      - name: Build release
-        run: nix develop --command bash -c "cd typescript_integration && npm install && npm run build"
+      - name: build and test typescript integration
+        run: nix develop --command bash -c "rustup default stable && make build && cd typescript_integration && npm install && npm run build && npm run test"
       - name: archive typescript_extension_dist_directory
         uses: actions/upload-artifact@v3
         with:
