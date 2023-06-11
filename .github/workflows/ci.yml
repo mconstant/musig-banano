@@ -52,7 +52,8 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: typescript_integration/mochawesome-report
           user_name: 'github-actions[bot]'
-          user_email: 'github-actions[bot]@users.noreply.github.com' 
+          user_email: 'github-actions[bot]@users.noreply.github.com'
+          keep_files: true
       - name: archive typescript_extension_dist_directory
         uses: actions/upload-artifact@v3
         with:
