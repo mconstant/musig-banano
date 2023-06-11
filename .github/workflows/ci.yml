@@ -46,12 +46,13 @@ jobs:
             access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
       - name: build and test typescript integration
         run: nix develop --command bash -c "rustup default stable && make build && cd typescript_integration && npm install && npm run build && npm run awesometest"
-      - name: archive mochawesome results
-        uses: actions/upload-artifact@v3
+      - name: Deploy mochawesome report page
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          name: mochawesome_html
-          path: |
-            typescript_integration/mochawesome-report/mochawesome.html
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: typescript_integration/mochawesome-report
+        user_name: 'github-actions[bot]'
+        user_email: 'github-actions[bot]@users.noreply.github.com' 
       - name: archive typescript_extension_dist_directory
         uses: actions/upload-artifact@v3
         with:
