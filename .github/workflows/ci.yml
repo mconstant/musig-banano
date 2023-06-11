@@ -50,9 +50,9 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: typescript_integration/mochawesome-report
-        user_name: 'github-actions[bot]'
-        user_email: 'github-actions[bot]@users.noreply.github.com' 
+          publish_dir: typescript_integration/mochawesome-report
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com' 
       - name: archive typescript_extension_dist_directory
         uses: actions/upload-artifact@v3
         with:
