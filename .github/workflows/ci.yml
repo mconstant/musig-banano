@@ -45,7 +45,13 @@ jobs:
           extra_nix_config: |
             access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
       - name: build and test typescript integration
-        run: nix develop --command bash -c "rustup default stable && make build && cd typescript_integration && npm install && npm run build && npm run test"
+        run: nix develop --command bash -c "rustup default stable && make build && cd typescript_integration && npm install && npm run build && npm run awesometest"
+      - name: archive mochawesome results
+        uses: actions/upload-artifact@v3
+        with:
+          name: mochawesome_html
+          path: |
+            typescript_integration/mochawesome-report/mochawesome.html
       - name: archive typescript_extension_dist_directory
         uses: actions/upload-artifact@v3
         with:

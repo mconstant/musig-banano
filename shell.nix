@@ -5,6 +5,7 @@ pkgs.mkShell {
     pkgs.rustup
     pkgs.pkg-config
     pkgs.zlib
+    pkgs.binaryen
     pkgs.libiconv
     pkgs.wasm-pack
     pkgs.openssl
