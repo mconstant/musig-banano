@@ -5,9 +5,9 @@
     "passes": 3,
     "pending": 0,
     "failures": 0,
-    "start": "2023-06-14T18:18:48.335Z",
-    "end": "2023-06-14T18:18:48.355Z",
-    "duration": 20,
+    "start": "2023-06-14T18:44:03.322Z",
+    "end": "2023-06-14T18:44:03.339Z",
+    "duration": 17,
     "testsRegistered": 3,
     "passPercent": 100,
     "pendingPercent": 0,
@@ -18,7 +18,7 @@
   },
   "results": [
     {
-      "uuid": "5eaf12e4-6d76-42a9-ad3f-6f5afb7dd78f",
+      "uuid": "03b8bee4-7fd1-4407-9bbf-6621e036696e",
       "title": "",
       "fullFile": "/home/runner/work/musig-banano/musig-banano/typescript_integration/test/musig_aggregated_address.spec.ts",
       "file": "/test/musig_aggregated_address.spec.ts",
@@ -27,7 +27,7 @@
       "tests": [],
       "suites": [
         {
-          "uuid": "e714bb50-88b7-4268-9d95-235e74455c53",
+          "uuid": "552ca864-9415-42ea-879a-487c86273bae",
           "title": "musig_aggregated_address",
           "fullFile": "/home/runner/work/musig-banano/musig-banano/typescript_integration/test/musig_aggregated_address.spec.ts",
           "file": "/test/musig_aggregated_address.spec.ts",
@@ -47,8 +47,8 @@
               "context": null,
               "code": "return __awaiter(_this, void 0, void 0, function () {\n        var two_addresses, three_addresses;\n        return __generator(this, function (_a) {\n            two_addresses = two_account_infos.map(function (account_info) {\n                return account_info.address;\n            });\n            (0, banano_musig_ceremony_1.set_addresses)(two_addresses);\n            expect((0, banano_musig_ceremony_1.get_addresses)()).to.be.equal(two_addresses);\n            three_addresses = three_account_infos.map(function (account_info) {\n                return account_info.address;\n            });\n            (0, banano_musig_ceremony_1.set_addresses)(three_addresses);\n            expect((0, banano_musig_ceremony_1.get_addresses)()).to.be.equal(three_addresses);\n            return [2 /*return*/];\n        });\n    });",
               "err": {},
-              "uuid": "ff10176e-4440-4cbf-95d4-8f8c5870cd09",
-              "parentUUID": "e714bb50-88b7-4268-9d95-235e74455c53",
+              "uuid": "d4bea3bc-b8f0-4c9c-87d9-89560a6a4587",
+              "parentUUID": "552ca864-9415-42ea-879a-487c86273bae",
               "isHook": false,
               "skipped": false
             },
@@ -56,7 +56,7 @@
               "title": "aggregates two addresses",
               "fullTitle": "musig_aggregated_address aggregates two addresses",
               "timedOut": false,
-              "duration": 8,
+              "duration": 5,
               "state": "passed",
               "speed": "fast",
               "pass": true,
@@ -65,8 +65,8 @@
               "context": null,
               "code": "return __awaiter(_this, void 0, void 0, function () {\n        var two_addresses, aggregate_status, aggregated_address;\n        return __generator(this, function (_a) {\n            two_addresses = two_account_infos.map(function (account_info) {\n                return account_info.address;\n            });\n            (0, banano_musig_ceremony_1.set_addresses)(two_addresses);\n            expect((0, banano_musig_ceremony_1.get_addresses)()).to.be.equal(two_addresses);\n            aggregate_status = (0, banano_musig_ceremony_1.musig_aggregated_address)();\n            if (aggregate_status.status === 'ok') {\n                aggregated_address = aggregate_status.value;\n                expect(aggregated_address).to.be.equal(expected_two_addresses_aggregated);\n            }\n            else {\n                throw Error(aggregate_status.message);\n            }\n            return [2 /*return*/];\n        });\n    });",
               "err": {},
-              "uuid": "07c2b1cf-dc42-44a0-a9cc-056735475975",
-              "parentUUID": "e714bb50-88b7-4268-9d95-235e74455c53",
+              "uuid": "f9e1c367-580d-4bb8-a96c-3b2019f90be5",
+              "parentUUID": "552ca864-9415-42ea-879a-487c86273bae",
               "isHook": false,
               "skipped": false
             },
@@ -83,22 +83,22 @@
               "context": null,
               "code": "return __awaiter(_this, void 0, void 0, function () {\n        var three_addresses, aggregate_status, aggregated_address;\n        return __generator(this, function (_a) {\n            three_addresses = three_account_infos.map(function (account_info) {\n                return account_info.address;\n            });\n            (0, banano_musig_ceremony_1.set_addresses)(three_addresses);\n            expect((0, banano_musig_ceremony_1.get_addresses)()).to.be.equal(three_addresses);\n            aggregate_status = (0, banano_musig_ceremony_1.musig_aggregated_address)();\n            if (aggregate_status.status === 'ok') {\n                aggregated_address = aggregate_status.value;\n                expect(aggregated_address).to.be.equal(expected_three_addresses_aggregated);\n            }\n            else {\n                throw Error(aggregate_status.message);\n            }\n            return [2 /*return*/];\n        });\n    });",
               "err": {},
-              "uuid": "350afed6-0f59-49d3-a9dc-236ff494715d",
-              "parentUUID": "e714bb50-88b7-4268-9d95-235e74455c53",
+              "uuid": "b62cf2f6-bcb8-4396-a29b-f1220c193bab",
+              "parentUUID": "552ca864-9415-42ea-879a-487c86273bae",
               "isHook": false,
               "skipped": false
             }
           ],
           "suites": [],
           "passes": [
-            "ff10176e-4440-4cbf-95d4-8f8c5870cd09",
-            "07c2b1cf-dc42-44a0-a9cc-056735475975",
-            "350afed6-0f59-49d3-a9dc-236ff494715d"
+            "d4bea3bc-b8f0-4c9c-87d9-89560a6a4587",
+            "f9e1c367-580d-4bb8-a96c-3b2019f90be5",
+            "b62cf2f6-bcb8-4396-a29b-f1220c193bab"
           ],
           "failures": [],
           "pending": [],
           "skipped": [],
-          "duration": 14,
+          "duration": 11,
           "root": false,
           "rootEmpty": false,
           "_timeout": 20000
