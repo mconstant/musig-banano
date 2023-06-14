@@ -5,9 +5,9 @@
     "passes": 3,
     "pending": 0,
     "failures": 0,
-    "start": "2023-06-14T18:17:04.574Z",
-    "end": "2023-06-14T18:17:04.593Z",
-    "duration": 19,
+    "start": "2023-06-14T18:18:48.335Z",
+    "end": "2023-06-14T18:18:48.355Z",
+    "duration": 20,
     "testsRegistered": 3,
     "passPercent": 100,
     "pendingPercent": 0,
@@ -18,7 +18,7 @@
   },
   "results": [
     {
-      "uuid": "9060ce2a-b776-4b8b-aff0-6a534d63df8d",
+      "uuid": "5eaf12e4-6d76-42a9-ad3f-6f5afb7dd78f",
       "title": "",
       "fullFile": "/home/runner/work/musig-banano/musig-banano/typescript_integration/test/musig_aggregated_address.spec.ts",
       "file": "/test/musig_aggregated_address.spec.ts",
@@ -27,7 +27,7 @@
       "tests": [],
       "suites": [
         {
-          "uuid": "d1aec73c-11be-49fd-9b0f-fadb3262220e",
+          "uuid": "e714bb50-88b7-4268-9d95-235e74455c53",
           "title": "musig_aggregated_address",
           "fullFile": "/home/runner/work/musig-banano/musig-banano/typescript_integration/test/musig_aggregated_address.spec.ts",
           "file": "/test/musig_aggregated_address.spec.ts",
@@ -38,7 +38,7 @@
               "title": "set_addresses matches get_addresses",
               "fullTitle": "musig_aggregated_address set_addresses matches get_addresses",
               "timedOut": false,
-              "duration": 1,
+              "duration": 2,
               "state": "passed",
               "speed": "fast",
               "pass": true,
@@ -47,8 +47,8 @@
               "context": null,
               "code": "return __awaiter(_this, void 0, void 0, function () {\n        var two_addresses, three_addresses;\n        return __generator(this, function (_a) {\n            two_addresses = two_account_infos.map(function (account_info) {\n                return account_info.address;\n            });\n            (0, banano_musig_ceremony_1.set_addresses)(two_addresses);\n            expect((0, banano_musig_ceremony_1.get_addresses)()).to.be.equal(two_addresses);\n            three_addresses = three_account_infos.map(function (account_info) {\n                return account_info.address;\n            });\n            (0, banano_musig_ceremony_1.set_addresses)(three_addresses);\n            expect((0, banano_musig_ceremony_1.get_addresses)()).to.be.equal(three_addresses);\n            return [2 /*return*/];\n        });\n    });",
               "err": {},
-              "uuid": "9cac42a7-f9a7-4c6f-aa5f-c3bd341cb831",
-              "parentUUID": "d1aec73c-11be-49fd-9b0f-fadb3262220e",
+              "uuid": "ff10176e-4440-4cbf-95d4-8f8c5870cd09",
+              "parentUUID": "e714bb50-88b7-4268-9d95-235e74455c53",
               "isHook": false,
               "skipped": false
             },
@@ -56,7 +56,7 @@
               "title": "aggregates two addresses",
               "fullTitle": "musig_aggregated_address aggregates two addresses",
               "timedOut": false,
-              "duration": 6,
+              "duration": 8,
               "state": "passed",
               "speed": "fast",
               "pass": true,
@@ -65,8 +65,8 @@
               "context": null,
               "code": "return __awaiter(_this, void 0, void 0, function () {\n        var two_addresses, aggregate_status, aggregated_address;\n        return __generator(this, function (_a) {\n            two_addresses = two_account_infos.map(function (account_info) {\n                return account_info.address;\n            });\n            (0, banano_musig_ceremony_1.set_addresses)(two_addresses);\n            expect((0, banano_musig_ceremony_1.get_addresses)()).to.be.equal(two_addresses);\n            aggregate_status = (0, banano_musig_ceremony_1.musig_aggregated_address)();\n            if (aggregate_status.status === 'ok') {\n                aggregated_address = aggregate_status.value;\n                expect(aggregated_address).to.be.equal(expected_two_addresses_aggregated);\n            }\n            else {\n                throw Error(aggregate_status.message);\n            }\n            return [2 /*return*/];\n        });\n    });",
               "err": {},
-              "uuid": "94aae439-4160-4c2b-a723-f05b55036edf",
-              "parentUUID": "d1aec73c-11be-49fd-9b0f-fadb3262220e",
+              "uuid": "07c2b1cf-dc42-44a0-a9cc-056735475975",
+              "parentUUID": "e714bb50-88b7-4268-9d95-235e74455c53",
               "isHook": false,
               "skipped": false
             },
@@ -74,7 +74,7 @@
               "title": "aggregates three addresses",
               "fullTitle": "musig_aggregated_address aggregates three addresses",
               "timedOut": false,
-              "duration": 3,
+              "duration": 4,
               "state": "passed",
               "speed": "fast",
               "pass": true,
@@ -83,22 +83,22 @@
               "context": null,
               "code": "return __awaiter(_this, void 0, void 0, function () {\n        var three_addresses, aggregate_status, aggregated_address;\n        return __generator(this, function (_a) {\n            three_addresses = three_account_infos.map(function (account_info) {\n                return account_info.address;\n            });\n            (0, banano_musig_ceremony_1.set_addresses)(three_addresses);\n            expect((0, banano_musig_ceremony_1.get_addresses)()).to.be.equal(three_addresses);\n            aggregate_status = (0, banano_musig_ceremony_1.musig_aggregated_address)();\n            if (aggregate_status.status === 'ok') {\n                aggregated_address = aggregate_status.value;\n                expect(aggregated_address).to.be.equal(expected_three_addresses_aggregated);\n            }\n            else {\n                throw Error(aggregate_status.message);\n            }\n            return [2 /*return*/];\n        });\n    });",
               "err": {},
-              "uuid": "8aadecf8-4f9c-4900-861c-1fe55185922e",
-              "parentUUID": "d1aec73c-11be-49fd-9b0f-fadb3262220e",
+              "uuid": "350afed6-0f59-49d3-a9dc-236ff494715d",
+              "parentUUID": "e714bb50-88b7-4268-9d95-235e74455c53",
               "isHook": false,
               "skipped": false
             }
           ],
           "suites": [],
           "passes": [
-            "9cac42a7-f9a7-4c6f-aa5f-c3bd341cb831",
-            "94aae439-4160-4c2b-a723-f05b55036edf",
-            "8aadecf8-4f9c-4900-861c-1fe55185922e"
+            "ff10176e-4440-4cbf-95d4-8f8c5870cd09",
+            "07c2b1cf-dc42-44a0-a9cc-056735475975",
+            "350afed6-0f59-49d3-a9dc-236ff494715d"
           ],
           "failures": [],
           "pending": [],
           "skipped": [],
-          "duration": 10,
+          "duration": 14,
           "root": false,
           "rootEmpty": false,
           "_timeout": 20000
