@@ -8,6 +8,7 @@ pkgs.mkShell {
     pkgs.binaryen
     pkgs.libiconv
     pkgs.wasm-pack
+    pkgs.wasm-strip
     pkgs.openssl
     pkgs.nodejs
     pkgs.nodePackages.typescript
