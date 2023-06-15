@@ -3109,7 +3109,7 @@ AgcBAgEFZAGgBwABPQQABAAHbQcAYIDwAA==
                 for (let i = 0; i < 5; i++) {
                     fullAddress[32 + i] = checksum[i];
                 }
-                document.getElementById("aggregateOut").innerText = "nano_" + encode(fullAddress);
+                document.getElementById("aggregateOut").innerText = "ban_" + encode(fullAddress);
                 wasm.musig_free(outPtr);
                 return aggPubkey;
             }
