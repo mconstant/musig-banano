@@ -19,9 +19,8 @@ jobs:
             access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
       - name: build original wasm, build and test typescript integration
         run: nix develop --command bash -c "rustup default stable && make build && cd typescript_integration && npm install && npm run build && npm run awesometest"
-
       - name: base64 encode musig_banano_wasm
-        run: (cat target/wasm32-unknown-unknown/release/musig_banano_wasm.wasm | base64) > gh-pages/musig_banano_wasm.wasm.b64
+        run: wasm-strip target/wasm32-unknown-unknown/release/musig_banano_wasm.wasm && (cat target/wasm32-unknown-unknown/release/musig_banano_wasm.wasm | base64) > gh-pages/musig_banano_wasm.wasm.b64
       - name: create index.html for gh-pages from template
         run: cd gh-pages && sed '/<script type="data" id="wasmBase64">/r musig_banano_wasm.wasm.b64' index.html.template > index.html
       - name: Deploy templated gh-pages
