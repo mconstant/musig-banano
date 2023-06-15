@@ -473,8 +473,8 @@
                 const pubkeys = [];
                 for (let address of addresses) {
                     address = address.trim();
-                    if (!address.startsWith("xrb_") && !address.startsWith("nano_")) {
-                        throw new Error("Nano addresses must start with xrb_ or nano_");
+                    if (!address.startsWith("ban_") {
+                        throw new Error("Banano addresses must start with ban_");
                     }
                     address = address.split("_", 2)[1];
                     try {
