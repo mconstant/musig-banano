@@ -7,13 +7,13 @@
     <script type="data" id="wasmBase64">
     </script>
 
-    <!-- nano-base32 from https://github.com/termhn/nano-base32/blob/d6b160aba47595180b67cc8a30096a11525e4010/index.js -->
+    <!-- peeled version of nano-base32 from https://github.com/termhn/nano-base32/blob/d6b160aba47595180b67cc8a30096a11525e4010/index.js -->
     <script>
 
         const alphabet = '13456789abcdefghijkmnopqrstuwxyz'
 
         /**
-         * Encode provided Uint8Array using the Nano-specific Base-32 implementeation.
+         * Encode provided Uint8Array using the banano-specific Base-32 implementeation.
          * @param {Uint8Array} view Input buffer formatted as a Uint8Array
          * @returns {string}
          */
@@ -57,8 +57,8 @@
         }
 
         /**
-         * Decodes a Nano-implementation Base32 encoded string into a Uint8Array
-         * @param {string} input A Nano-Base32 encoded string
+         * Decodes a banano-implementation Base32 encoded string into a Uint8Array
+         * @param {string} input A banano-Base32 encoded string
          * @returns {Uint8Array}
          */
         function decode(input) {
@@ -480,17 +480,17 @@
                     try {
                         const bytes = decode(address);
                         if (bytes.length !== 37) {
-                            throw new Error("Wrong nano address length");
+                            throw new Error("Wrong banano address length");
                         }
                         const pubkey = bytes.subarray(0, 32);
                         const checksum = calculateAddressChecksum(pubkey);
                         if (!byteArraysEqual(bytes.subarray(32), checksum)) {
-                            throw new Error("Invalid nano address checksum");
+                            throw new Error("Invalid banano address checksum");
                         }
                         pubkeys.push(pubkey);
                     } catch (err) {
                         console.error(err);
-                        throw new Error("Invalid nano address (bad character?)");
+                        throw new Error("Invalid banano address (bad character?)");
                     }
                 }
                 const pubkeyPtrs = wasm.musig_malloc(pubkeys.length * 4);
