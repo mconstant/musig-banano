@@ -2,8 +2,8 @@
 <html>
 
 <head>
-    <title>Nano Multisignature Tool</title>
-    <!-- Built with ./build-wasm.sh -->
+    <title>Banano Multisignature Tool</title>
+    <!-- Built with github actions -->
     <script type="data" id="wasmBase64">
     </script>
 
