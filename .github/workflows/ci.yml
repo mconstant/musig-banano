@@ -6,35 +6,8 @@ permissions:
 name: CI
 
 jobs:
-  build_and_archive_musig_banano_wasm:
-    name: Rust project
-    runs-on: ubuntu-latest
-    steps:
-      - name: checkout
-        uses: actions/checkout@v2
-      - name: prep toolchain
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          target: wasm32-unknown-unknown
-      - name: cargo build
-        uses: actions-rs/cargo@v1
-        with:
-          command: build
-          args: --target wasm32-unknown-unknown --release
-      - name: archive production artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: musig_banano.wasm
-          path: |
-            target/wasm32-unknown-unknown/release/musig_banano.wasm
-      - name: release wasm
-        uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
-        with:
-          files: target/wasm32-unknown-unknown/release/musig_banano.wasm
-  build_test_and_archive_typescript_integration:
-    name: typescript integration
+  build_test_and_archive:
+    name: build_test_and_archive
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -44,8 +17,20 @@ jobs:
           # Mostly to avoid GitHub rate limiting
           extra_nix_config: |
             access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
-      - name: build and test typescript integration
+      - name: build original wasm, build and test typescript integration
         run: nix develop --command bash -c "rustup default stable && make build && cd typescript_integration && npm install && npm run build && npm run awesometest"
+
+      - name: base64 encode musig_banano_wasm
+        run: (cat target/wasm32-unknown-unknown/release/musig_banano_wasm.wasm | base64) > gh-pages/musig_banano_wasm.wasm.b64
+      - name: create index.html for gh-pages from template
+        run: cd gh-pages && sed '/<script type="data" id="wasmBase64">/r musig_banano_wasm.wasm.b64' index.html.template > index.html
+      - name: Deploy templated gh-pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: gh-pages
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
       - name: Deploy mochawesome report page
         uses: peaceiris/actions-gh-pages@v3
         with:
@@ -54,15 +39,26 @@ jobs:
           user_name: 'github-actions[bot]'
           user_email: 'github-actions[bot]@users.noreply.github.com'
           keep_files: true
-      - name: archive typescript_extension_dist_directory
+      - name: archive original rust wasm
         uses: actions/upload-artifact@v3
         with:
-          name: typescript_integration_dist_directory
+          name: musig_banano_wasm.wasm
           path: |
-            typescript_integration/dist/
+            target/wasm32-unknown-unknown/release/musig_banano_wasm.wasm
+      - name: archive typescript pkg directory
+        uses: actions/upload-artifact@v3
+        with:
+          name: typescript_integration_pkg_directory
+          path: |
+            pkg/
+      - name: release orignal rust wasm
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: target/wasm32-unknown-unknown/release/musig_banano_wasm.wasm
       - name: release dist dir
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: typescript_integration/dist/**
+          files: pkg/**
   
