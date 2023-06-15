@@ -1,5 +1,5 @@
 #!/bin/bash
-# Produces a musig_nano.wasm.b64 file. This can be placed in the index.html wasmBase64 script tag.
+# Produces a musig_nano.wasm.b64 file. This can be placed in the index.html.template wasmBase64 script tag.
 docker run --rm -i ubuntu:focal > musig_nano.wasm.b64 <<EOF
 bash >&2 <<BUILD
 set -e
@@ -16,3 +16,6 @@ wasm-strip target/wasm32-wasi/release/musig_nano.wasm
 BUILD
 cat /root/musig-nano/target/wasm32-wasi/release/musig_nano.wasm | base64
 EOF
+sed '/<script type="data" id="wasmBase64">/r musig_nano.wasm.b64' index.html.template > index.html
+
+
