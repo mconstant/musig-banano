@@ -473,7 +473,7 @@
                 const pubkeys = [];
                 for (let address of addresses) {
                     address = address.trim();
-                    if (!address.startsWith("ban_") {
+                    if (!address.startsWith("ban_")) {
                         throw new Error("Banano addresses must start with ban_");
                     }
                     address = address.split("_", 2)[1];
