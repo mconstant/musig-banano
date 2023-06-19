@@ -4,3 +4,4 @@
 **/dist
 /typescript_integration/node_modules
 *.DS_STORE
+.env
