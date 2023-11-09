@@ -34,3 +34,7 @@ This library does require the R value commitment (the 3 round version), because 
 make tools
 make build
 ```
+
+## Build
+
+This repo builds automatically and publishes to https://mconstant.github.io/musig-banano/
