@@ -38,3 +38,7 @@ make build
 ## Build
 
 This repo builds automatically and publishes to https://mconstant.github.io/musig-banano/
+
+## Test Results
+
+The test results from every build are available at https://mconstant.github.io/musig-banano/mochawesome.html
