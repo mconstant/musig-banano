@@ -50,6 +50,12 @@ jobs:
           name: typescript_integration_pkg_directory
           path: |
             pkg/
+      - name: archive test report directory
+        uses: actions/upload-artifact@v3
+        with:
+          name: test_report_directory
+          path: |
+            mochawesome-report/
       - name: release orignal rust wasm
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
