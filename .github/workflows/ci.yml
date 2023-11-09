@@ -57,7 +57,7 @@ jobs:
         with:
           name: test_report_directory
           path: |
-            mochawesome-report/
+            typescript_integration/mochawesome-report
       - name: release orignal rust wasm
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
