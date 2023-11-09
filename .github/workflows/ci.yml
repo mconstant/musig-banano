@@ -36,7 +36,7 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: musig-banano/typescript_integration/mochawesome-report
+          publish_dir: typescript_integration/mochawesome-report
           user_name: 'github-actions[bot]'
           user_email: 'github-actions[bot]@users.noreply.github.com'
           keep_files: true
