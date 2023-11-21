@@ -4,7 +4,7 @@
 default: build
 
 tools:
-	nix-shell -p rustup libiconv wasm-pack openssl
+	nix-shell
 
 build:
 	wasm-pack build --target web --release
