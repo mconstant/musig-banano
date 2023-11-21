@@ -1,3 +1,11 @@
 import { IMusigSuccess, IMusigError } from './interfaces';
-export declare const set_addresses: (new_addresses: string[]) => void;
-export declare const musig_aggregated_address: () => (IMusigSuccess<string> | IMusigError);
+type TCeremoryState = undefined | "started" | "succeeded" | "failed";
+export declare function set_addresses(new_addresses: string[]): void;
+export declare function get_addresses(): string[];
+export declare function set_message_to_sign(new_message: string): void;
+export declare function ceremony_state(): TCeremoryState;
+export declare function input_to_share(): any;
+export declare function musig_aggregated_address(callback?: any): (IMusigSuccess<string> | IMusigError);
+export declare function musig_start_ceremony(private_key: string): void;
+export declare function musig_advance_ceremony(other_participants_inputs: any): void;
+export {};

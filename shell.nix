@@ -12,5 +12,6 @@ pkgs.mkShell {
     pkgs.openssl
     pkgs.nodejs
     pkgs.nodePackages.typescript
+    pkgs.curl
   ];
 }

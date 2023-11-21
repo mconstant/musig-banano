@@ -115,34 +115,30 @@ let addresses = [];
 let messageToSign;
 type TCeremoryState = undefined | "started" | "succeeded" | "failed";
 let ceremonyState: TCeremoryState = undefined;
-let musigStagePtr, musigStageNum, musigStageInputToShare, pubkeysLen;
+let musigStagePtr, musigStageNum, pubkeyPtrs, pubkeysLen, musigStageInputToShare;
 
-export function set_addresses(new_addresses: string[]): void {
+export function set_addresses2(new_addresses: string[]): void {
   addresses = new_addresses;
 };
 
-export function get_addresses(): string[] {
+export function get_addresses2(): string[] {
   return addresses;
 };
 
-export function set_message_to_sign(new_message: string): void {
+export function set_message_to_sign2(new_message: string): void {
   // TODO: Validate that it's a block hash
   messageToSign = new_message;
 };
 
-export function ceremony_state(): TCeremoryState {
+export function ceremony_state2(): TCeremoryState {
   return ceremonyState;
-}
-
-export function input_to_share() {
-  return musigStageInputToShare;
 }
 
 // https://github.com/PlasmaPower/musig-nano/blob/gh-pages/index.html#L4198-L4258
 // note that the aggregate function in this example uses an older build of musig
 // before some parameters were moved from musig_stage0 to musig_state1:
 // https://github.com/PlasmaPower/musig-nano/commit/7ab8c8d0dcc604cab72f0d28e6ec5ca19851b156
-export function musig_aggregated_address(callback?): (IMusigSuccess<string> | IMusigError) {
+export function musig_aggregated_address2(): (IMusigSuccess<string> | IMusigError) {
   if (!musig_banano) {
     return {
       status: 'error',
@@ -160,21 +156,21 @@ export function musig_aggregated_address(callback?): (IMusigSuccess<string> | IM
   if (generate_pubkeys_result.status === 'error') {
     return generate_pubkeys_result;
   }
-  const pubkeys = generate_pubkeys_result.value.map((_hex) => fromHexString(_hex));
-  console.log(`pubkeys`, pubkeys);
-  pubkeysLen = pubkeys.length;
+  const pubkeys = generate_pubkeys_result.value;
 
   // https://github.com/PlasmaPower/musig-nano/blob/gh-pages/index.html#L4227C17-L4231
-  const pubkeyPtrs = musig_banano.musig_malloc(pubkeys.length * 4);
+  pubkeyPtrs = musig_banano.musig_malloc(pubkeys.length * 4);
+  pubkeysLen =  addresses.length
   const pubkeyPtrsBuf = new Uint32Array(musig_banano.memory.buffer, pubkeyPtrs, pubkeys.length);
   for (let i = 0; i < pubkeys.length; i++) {
-    pubkeyPtrsBuf[i] = copyToWasm(pubkeys[i]);
+    const pubkeyBytes: Uint8Array = hexToUint8(pubkeys[i]);
+    pubkeyPtrsBuf[i] = copyToWasm(pubkeyBytes);
   }
+
   const outPtr = musig_banano.musig_malloc(33);
   const outBuf = new Uint8Array(musig_banano.memory.buffer, outPtr, 33);
   outBuf[0] = 0;
   musig_banano.musig_aggregate_public_keys(pubkeyPtrs, pubkeys.length, outPtr, outPtr + 1);
-  if (callback) callback(pubkeyPtrs, pubkeysLen);
 
   // TODO: solved, delete this
   // TODO: Figure out what this does
@@ -234,8 +230,11 @@ function cleanup_ceremony() {
   // TODO: clean up musig_banano memory?
   ceremonyState = undefined;
 }
+export function input_to_share2() {
+  return musigStageInputToShare;
+}
 
-export function musig_start_ceremony(private_key: string) {
+export function musig_start_ceremony2(private_key: string) {
   if (!/^[a-fA-F0-9]{64}$/.test(private_key)) {
     throw new Error("Invalid private key");
   }
@@ -243,24 +242,17 @@ export function musig_start_ceremony(private_key: string) {
     throw new Error("Message isn't valid hexadecimal");
   }
   const privateKeyPtr = copyToWasm(fromHexString(private_key));
-  console.log(`privateKeyPtr`, privateKeyPtr);
   const outPtr = musig_banano.musig_malloc(65);
   const outBuf = new Uint8Array(musig_banano.memory.buffer, outPtr, 65);
   outBuf[0] = 0;
 
-  const flags = 0;
+  const isScalar = 0;
   let aggPubKey;
   try {
-    const aggregate_status = musig_aggregated_address(function _stage0(pubkeyPtrs, pubkeysLen) {
-      console.log(`.------`, pubkeyPtrs, pubkeysLen);
-      // TODO: STUCK HERE: RuntimeError: unreachable
-      musigStagePtr = musig_banano.musig_stage0(privateKeyPtr, pubkeyPtrs, pubkeysLen, flags, outPtr, outPtr + 1, outPtr + 33);
-      musigStageNum = 0;
-      console.log(`musigStageNum`, musigStageNum);
-    });
+    const aggregate_status = musig_aggregated_address2();
     if (aggregate_status.status === "ok") {
-      aggPubKey = aggregate_status.value;
-      // do nothing
+      musigStagePtr = musig_banano.musig_stage0(outPtr, outPtr + 1);
+      musigStageNum = 0;
     } else {
       try {
         cleanup1();
@@ -286,8 +278,6 @@ export function musig_start_ceremony(private_key: string) {
     cleanup_ceremony();
     throw wasmError(err);
   }
-  // TODO: !!!
-  /*
   if (!byteArraysEqual(aggPubKey, outBuf.subarray(1, 33))) {
     musig_banano.musig_free_stage0(musigStagePtr);
     musigStagePtr = undefined;
@@ -297,14 +287,13 @@ export function musig_start_ceremony(private_key: string) {
     cleanup_ceremony();
     throw new Error("Specified private key not in the list of public keys");
   }
-  */
 
   ceremonyState = "started";
   musigStageInputToShare = toHexString(outBuf.subarray(33));
   musig_banano.musig_free(outPtr);
 }
 
-export function musig_advance_ceremony(other_participants_inputs) {
+export function musig_advance_ceremony2(other_participants_inputs) {
   if (["failed", undefined].includes(ceremonyState)) {
     throw Error(`Unable to call musig_advance_ceremony, ceremonyState: ${ceremonyState}`);
   }
@@ -354,7 +343,7 @@ export function musig_advance_ceremony(other_participants_inputs) {
   }
   musigStagePtr = newStagePtr;
   musigStageNum++;
-
+  
   musigStageInputToShare = toHexString(outBuf.subarray(1));
 
   if (musigStageNum === 3) {
